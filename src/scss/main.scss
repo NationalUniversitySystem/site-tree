@@ -1,0 +1,50 @@
+.page-template-page-tree {
+  .site-header {
+    display: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tree-wrap {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 60px auto;
+    max-width: 900px;
+
+    a {
+      font-weight: 700;
+
+      span {
+        opacity: .4;
+      }
+    }
+
+    img {
+      display: block;
+      margin-top: 10px;
+      max-width: 350px;
+    }
+  }
+
+  .page-level {
+    margin-bottom: 10px;
+    padding-left: 30px;
+    padding-top: 25px;
+    position: relative;
+  }
+
+  @mixin page-levels($level) {
+    border-left: 2px solid rgba(#4d535b, (1 - ($level * .2)));
+    font-size: 22 - ($level * 2) * 1px;
+  }
+
+  @for $i from 0 through 9 {
+    .page-level--#{$i} {
+      @include page-levels($i);
+    }
+  }
+}

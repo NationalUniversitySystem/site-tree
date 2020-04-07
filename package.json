@@ -1,26 +1,36 @@
 {
   "name": "site-tree",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple WP plugin to display page tree with featured images so design can determine images to use in heroes.",
+  "repository": "https://github.com/NationalUniversitySystem/site-tree",
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp": "gulp"
   },
   "author": "Mike Estrada",
-  "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/register": "^7.7.7",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
+    "@wordpress/eslint-plugin": "^4.1.0",
     "del": "^5.1.0",
+    "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
-    "gulp-clean-css": "^4.2.0",
+    "gulp-clean-css": "^4.3.0",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.0.2",
-    "gulp-sass-lint": "^1.4.0"
+    "gulp-stylelint": "^13.0.0",
+    "node-sass": "^4.13.1",
+    "stylelint": "^13.3.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-declaration-use-variable": "^1.7.2",
+    "stylelint-media-use-custom-media": "^1.0.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.16.0"
   }
 }

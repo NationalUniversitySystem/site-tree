@@ -16,7 +16,7 @@ define( 'SITE_TREE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SITE_TREE_URL', plugin_dir_url( __FILE__ ) );
 
 if ( file_exists( SITE_TREE_PATH . 'inc/class-page-templater.php' ) ) {
-	require SITE_TREE_PATH . 'inc/class-page-templater.php';
+	require SITE_TREE_PATH . 'inc/class-page-templater.php'; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingCustomConstant
 
 	if ( class_exists( 'Page_Templater' ) && method_exists( 'Page_Templater', 'singleton' ) ) {
 		add_action( 'plugins_loaded', [ 'Page_Templater', 'singleton' ] );

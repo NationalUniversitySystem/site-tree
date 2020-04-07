@@ -8,18 +8,18 @@ import rename from 'gulp-rename';
 import autoprefixer from 'gulp-autoprefixer';
 import cleanCSS from 'gulp-clean-css';
 import sass from 'gulp-sass';
-import sassLint from 'gulp-sass-lint';
+import styleLint from 'gulp-stylelint';
 
 /**
  * Custom Error Handler.
  *
- * @param Mixed error
+ * @param {*} error
  */
- const errorHandler = error => {
+const errorHandler = error => {
 	notify.onError( {
 		title: 'Gulp error in ' + error.plugin,
 		message: error.toString(),
-		sound: false
+		sound: false,
 	} )( error );
 };
 
@@ -31,10 +31,14 @@ import sassLint from 'gulp-sass-lint';
  */
 export const sassLinter = () => {
 	return src( 'src/scss/**/*.scss' )
-		.pipe( plumber( errorHandler ) )
-		.pipe( sassLint() )
-		.pipe( sassLint.format() )
-		.pipe( sassLint.failOnError() );
+		.pipe( plumber( { errorHandler: 'errorHandler' } ) )
+		.pipe( styleLint( {
+			syntax: 'scss',
+			reporters: [ {
+				formatter: 'string',
+				console: true,
+			} ],
+		} ) );
 };
 sassLinter.description = 'Lint through all our SASS/SCSS files so our code is consistent across files.';
 
@@ -49,6 +53,8 @@ sassLinter.description = 'Lint through all our SASS/SCSS files so our code is co
  *    5. Renames the CSS file with suffix .min.css
  *    6. Minifies the CSS file and generates *.min.css
  *    7. Injects CSS or reloads the browser via server
+ *
+ * @param {Function} done Callback function for async purposes.
  */
 export const css = done => {
 	del( './assets/css/*' );
@@ -57,16 +63,16 @@ export const css = done => {
 		.pipe( plumber( errorHandler ) )
 		.pipe( sass( { outputStyle: 'expanded' } ).on( 'error', sass.logError ) )
 		.pipe( autoprefixer( {
-			cascade: false
+			cascade: false,
 		} ) )
 		.pipe( cleanCSS( {
 			level: {
 				2: {
 					all: false,
 					mergeIntoShorthands: true,
-					mergeMedia: true
-				}
-			}
+					mergeMedia: true,
+				},
+			},
 		} ) )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( dest( './assets/css', { sourcemaps: '.' } ) );

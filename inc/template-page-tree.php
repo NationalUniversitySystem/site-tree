@@ -9,7 +9,7 @@
 
 get_header();
 
-$object_type = ! empty( $_GET['post-type'] ) ? $_GET['post-type'] : 'page';
+$object_type = ! empty( $_GET['post-type'] ) ? $_GET['post-type'] : 'page'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 global $current_page_id;
 
@@ -20,7 +20,7 @@ $current_page_id = get_the_ID();
 		NU 2.0 Website Tree w/ Images
 	</h1>
 	<h4 class="heading heading--leituranews heading--three heading--underlined  mb-12">
-		PDF Generated on: <?php echo esc_html( date( 'n-j-Y' ) ); ?>
+		PDF Generated on: <?php echo esc_html( gmdate( 'n-j-Y' ) ); ?>
 	</h4>
 	<?php
 	generate_pages( $object_type, 0 );

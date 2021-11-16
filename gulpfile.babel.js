@@ -7,13 +7,17 @@ import rename from 'gulp-rename';
 // CSS related plugins.
 import autoprefixer from 'gulp-autoprefixer';
 import cleanCSS from 'gulp-clean-css';
-import sass from 'gulp-sass';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps';
 import styleLint from 'gulp-stylelint';
+
+const sass = gulpSass( dartSass );
 
 /**
  * Custom Error Handler.
  *
- * @param {*} error
+ * @param {Object} error
  */
 const errorHandler = error => {
 	notify.onError( {
@@ -30,10 +34,10 @@ const errorHandler = error => {
  *    2. Lints theme files to keep code up to standards and consistent
  */
 export const sassLinter = () => {
-	return src( 'src/scss/**/*.scss' )
-		.pipe( plumber( { errorHandler: 'errorHandler' } ) )
+	return src( './src/scss/**/*.scss' )
+		.pipe( plumber( errorHandler ) )
 		.pipe( styleLint( {
-			syntax: 'scss',
+			customSyntax: 'postcss-scss',
 			reporters: [ {
 				formatter: 'string',
 				console: true,
@@ -59,8 +63,9 @@ sassLinter.description = 'Lint through all our SASS/SCSS files so our code is co
 export const css = done => {
 	del( './assets/css/*' );
 
-	src( 'src/scss/*.scss', { sourcemaps: true } )
+	src( 'src/scss/*.scss' )
 		.pipe( plumber( errorHandler ) )
+		.pipe( sourcemaps.init() )
 		.pipe( sass( { outputStyle: 'expanded' } ).on( 'error', sass.logError ) )
 		.pipe( autoprefixer( {
 			cascade: false,
@@ -75,13 +80,17 @@ export const css = done => {
 			},
 		} ) )
 		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( dest( './assets/css', { sourcemaps: '.' } ) );
+		.pipe( sourcemaps.write( '.', {
+			includeContent: false,
+			sourceRoot: '../../src/scss',
+		} ) )
+		.pipe( dest( './assets/css' ) );
 
 	done();
 };
 css.description = 'Compiles Sass, Autoprefixes it and Minifies CSS.';
 
 export const styles  = series( sassLinter, css );
-export const build   = styles;
+export const build   = css;
 
 export default build;
